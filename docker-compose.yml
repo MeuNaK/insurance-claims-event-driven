@@ -9,6 +9,10 @@ services:
     depends_on:
       - kafka
       - assessment-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_URL: jdbc:postgresql://assessment-db:5432/assessment
     ports:
       - "8091:8080"
 
@@ -21,6 +25,10 @@ services:
     depends_on:
       - kafka
       - claims-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_URL: jdbc:postgresql://claims-db:5432/claims
     ports:
       - "8092:8080"
 
@@ -33,6 +41,10 @@ services:
     depends_on:
       - kafka
       - payment-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_URL: jdbc:postgresql://payment-db:5432/payment
     ports:
       - "8093:8080"
 

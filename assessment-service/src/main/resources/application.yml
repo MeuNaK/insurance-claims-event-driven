@@ -1,0 +1,13 @@
+spring:
+
+  application:
+    name: AssessmentApp
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://assessment-db:5432/assessment}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate

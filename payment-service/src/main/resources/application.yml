@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: PaymentApp
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://payment-db:5432/payment}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate

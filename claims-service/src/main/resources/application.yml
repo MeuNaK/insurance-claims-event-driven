@@ -1,0 +1,13 @@
+spring:
+
+  application:
+    name: ClaimsApp
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://claims-db:5432/claims}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
