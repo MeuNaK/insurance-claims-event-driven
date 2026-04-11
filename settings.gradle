@@ -1,5 +1,8 @@
 rootProject.name = 'insurance-claims-event-driven'
 
-include 'claims-service'
-include 'assessment-service'
-include 'payment-service'
+include 'insurance-common-spring-boot-starter'
+['assessment-service', 'claims-service', 'payment-service'].each { module ->
+    if (new File(rootDir, module).exists()) {
+        include module
+    }
+}

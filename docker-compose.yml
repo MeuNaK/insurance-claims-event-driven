@@ -2,8 +2,8 @@ services:
 
   assessment:
     build:
-      context: ./assessment-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./assessment-service/Dockerfile
     container_name: assessment-service
     restart: always
     depends_on:
@@ -18,8 +18,8 @@ services:
 
   claims:
     build:
-      context: ./claims-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./claims-service/Dockerfile
     container_name: claims-service
     restart: always
     depends_on:
@@ -34,8 +34,8 @@ services:
 
   payment:
     build:
-      context: ./payment-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./payment-service/Dockerfile
     container_name: payment-service
     restart: always
     depends_on:
