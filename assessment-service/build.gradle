@@ -20,7 +20,6 @@ repositories {
 dependencies {
     implementation project(':insurance-common-spring-boot-starter')
 
-    runtimeOnly 'org.postgresql:postgresql'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
