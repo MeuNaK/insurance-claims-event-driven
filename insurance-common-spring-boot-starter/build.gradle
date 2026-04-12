@@ -19,12 +19,12 @@ dependencies {
     api 'org.springframework.boot:spring-boot-starter-liquibase'
     api 'org.postgresql:postgresql'
 
+    compileOnly         'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
     // Auto-configuration support
 //    annotationProcessor 'org.springframework.boot:spring-boot-autoconfigure-processor'
 //    compileOnly         'org.springframework.boot:spring-boot-autoconfigure'
-
-//    compileOnly         'org.projectlombok:lombok'
-//    annotationProcessor 'org.projectlombok:lombok'
 }
 
 dependencyManagement {
