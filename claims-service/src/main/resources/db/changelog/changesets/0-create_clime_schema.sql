@@ -1,4 +1,4 @@
 --liquibase formatted sql
 
---changeset anastasy:1
+--changeset Meuna:1
 CREATE SCHEMA IF NOT EXISTS claim;
