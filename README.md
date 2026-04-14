@@ -20,7 +20,35 @@ Main architecture principles:
 - Saga (choreography) for cross-service business flow;
 - idempotent event handling for duplicate protection.
 
-## Basic Business Flow
+## Basic Flow
+
+### Components flow
+
+```mermaid
+flowchart LR
+Client[Client / UI] --> Claims[claims-service]
+Claims --> ClaimsDB[(Claims DB)]
+Claims --> ClaimsOutbox[(Claims Outbox)]
+
+    ClaimsOutbox --> Kafka[(Kafka)]
+
+    Kafka --> Assessment[assessment-service]
+    Assessment --> AssessmentDB[(Assessment DB)]
+    Assessment --> AssessmentOutbox[(Assessment Outbox)]
+
+    AssessmentOutbox --> Kafka
+
+    Kafka --> Payment[payment-service]
+    Payment --> PaymentDB[(Payment DB)]
+    Payment --> PaymentOutbox[(Payment Outbox)]
+
+    PaymentOutbox --> Kafka
+
+    Kafka --> Claims
+```
+
+
+### Business Flow
 
 _This flow is currently in development and may change._
 
