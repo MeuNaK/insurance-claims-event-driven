@@ -26,25 +26,63 @@ Main architecture principles:
 
 ```mermaid
 flowchart LR
-Client[Client / UI] --> Claims[claims-service]
-Claims --> ClaimsDB[(Claims DB)]
-Claims --> ClaimsOutbox[(Claims Outbox)]
+    Client[Client / UI]
 
-    ClaimsOutbox --> Kafka[(Kafka)]
+    subgraph Claims["Claims boundary"]
+        direction TB
+        ClaimsSvc[claims-service]
+        ClaimsDB[(Claims DB)]
+        ClaimsOutbox[(Claims Outbox)]
+        ClaimsSvc --> ClaimsDB
+        ClaimsSvc --> ClaimsOutbox
+    end
 
-    Kafka --> Assessment[assessment-service]
-    Assessment --> AssessmentDB[(Assessment DB)]
-    Assessment --> AssessmentOutbox[(Assessment Outbox)]
+    subgraph Assessment["Assessment boundary"]
+        direction TB
+        AssessmentSvc[assessment-service]
+        AssessmentDB[(Assessment DB)]
+        AssessmentOutbox[(Assessment Outbox)]
+        AssessmentSvc --> AssessmentDB
+        AssessmentSvc --> AssessmentOutbox
+    end
 
+    subgraph Payment["Payment boundary"]
+        direction TB
+        PaymentSvc[payment-service]
+        PaymentDB[(Payment DB)]
+        PaymentOutbox[(Payment Outbox)]
+        PaymentSvc --> PaymentDB
+        PaymentSvc --> PaymentOutbox
+    end
+
+    Kafka[(Kafka)]
+
+    Client --> ClaimsSvc
+    Kafka --> ClaimsSvc
+    ClaimsOutbox --> Kafka
+    Kafka --> AssessmentSvc
     AssessmentOutbox --> Kafka
-
-    Kafka --> Payment[payment-service]
-    Payment --> PaymentDB[(Payment DB)]
-    Payment --> PaymentOutbox[(Payment Outbox)]
-
+    Kafka --> PaymentSvc
     PaymentOutbox --> Kafka
 
-    Kafka --> Claims
+    classDef client fill:#f4f4f4,stroke:#666,color:#111;
+    classDef claims fill:#d9ecff,stroke:#3b82f6,color:#111;
+    classDef assessment fill:#dcfce7,stroke:#22c55e,color:#111;
+    classDef payment fill:#fef3c7,stroke:#f59e0b,color:#111;
+    classDef db fill:#fff7ed,stroke:#ea580c,color:#111;
+    classDef kafka fill:#ede9fe,stroke:#8b5cf6,color:#111;
+
+    class Client client;
+    class ClaimsSvc claims;
+    class ClaimsDB db;
+    class ClaimsOutbox db;
+    class AssessmentSvc assessment;
+    class AssessmentDB db;
+    class AssessmentOutbox db;
+    class PaymentSvc payment;
+    class PaymentDB db;
+    class PaymentOutbox db;
+    class Kafka kafka;
 ```
 
 
