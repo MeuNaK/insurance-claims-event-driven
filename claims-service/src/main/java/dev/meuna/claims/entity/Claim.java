@@ -13,6 +13,7 @@ import java.util.Date;
 @Entity(name = "claim")
 public class Claim {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "policy_id")
