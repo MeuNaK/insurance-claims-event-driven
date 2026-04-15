@@ -1,6 +1,11 @@
 package dev.meuna.claims.dto;
 
 import dev.meuna.starter.claim.enums.ClaimStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-public record UpdateStatusRequest(ClaimStatus status) {
+@Schema(description = "Payload for updating claim status")
+public record UpdateStatusRequest(
+		@Schema(description = "New claim status", example = "UNDER_ASSESSMENT")
+		ClaimStatus status
+) {
 }
