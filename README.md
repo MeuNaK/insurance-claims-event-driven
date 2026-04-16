@@ -109,3 +109,12 @@ Possible alternative branches:
 ## Current Status
 
 The project is in active development. This document shows the target direction and near steps, not a final production implementation.
+
+## Swagger / OpenAPI
+
+Swagger UI and OpenAPI JSON are available for services after startup:
+
+- `claims-service`:
+  - UI: `http://localhost:8092/swagger-ui.html`
+  - OpenAPI JSON: `http://localhost:8092/v3/api-docs`
+
