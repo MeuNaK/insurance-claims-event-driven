@@ -12,22 +12,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@Slf4j
 public class KafkaConfig {
 	
-	@Value(value = "${spring.kafka.bootstrap-servers}")
-	private String bootstrapAddress;
-	
 	@Bean
-	public KafkaAdmin kafkaAdmin() {
-		log.info("Init kafka admin");
-		Map<String, Object> configs = new HashMap<>();
-		configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
-		return new KafkaAdmin(configs);
+	public NewTopic paymentCompletedTopic() {
+		return new NewTopic("payment-completed", 1, (short) 1);
 	}
 	
 	@Bean
-	public NewTopic topic1() {
-		return new NewTopic("test-from-payment", 1, (short) 1);
+	public NewTopic paymentFailedTopic() {
+		return new NewTopic("payment-failed", 1, (short) 1);
 	}
 }

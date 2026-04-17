@@ -1,6 +1,6 @@
 package dev.meuna.claims.dto;
 
-import dev.meuna.starter.claim.enums.ClaimStatus;
+import dev.meuna.starter.common.enums.claim.ClaimStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "Response returned after claim creation")
