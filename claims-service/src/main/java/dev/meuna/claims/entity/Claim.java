@@ -1,7 +1,7 @@
 package dev.meuna.claims.entity;
 
-import dev.meuna.starter.claim.enums.ClaimStatus;
-import dev.meuna.starter.claim.enums.ClaimType;
+import dev.meuna.starter.common.enums.claim.ClaimStatus;
+import dev.meuna.starter.common.enums.claim.ClaimType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

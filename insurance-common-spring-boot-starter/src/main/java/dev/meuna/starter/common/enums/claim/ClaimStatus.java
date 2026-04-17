@@ -1,7 +1,7 @@
-package dev.meuna.starter.claim.enums;
+package dev.meuna.starter.common.enums.claim;
 
-import dev.meuna.starter.converter.EnumConverter;
-import dev.meuna.starter.interfaces.PersistableEnum;
+import dev.meuna.starter.common.converter.EnumConverter;
+import dev.meuna.starter.common.interfaces.PersistableEnum;
 import jakarta.persistence.Converter;
 import lombok.Getter;
 

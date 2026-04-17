@@ -3,7 +3,7 @@ package dev.meuna.claims.service;
 import dev.meuna.claims.dto.CreateClaimRequest;
 import dev.meuna.claims.dto.CreateClaimResponse;
 import dev.meuna.claims.entity.Claim;
-import dev.meuna.starter.claim.enums.ClaimStatus;
+import dev.meuna.starter.common.enums.claim.ClaimStatus;
 import jakarta.transaction.Transactional;
 
 import java.util.Optional;
