@@ -10,6 +10,8 @@ spring:
     driver-class-name: org.postgresql.Driver
 
   liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
     default-schema: claim
     liquibase-schema: liquibase
 
@@ -21,5 +23,14 @@ spring:
         default_schema: claim
 
   kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9093}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
     consumer:
-      group-id: claim-service
+      auto-offset-reset: earliest
+      group-id: claims-service
+
+outbox:
+  scheduling:
+    enabled: true
