@@ -24,11 +24,11 @@ services:
     restart: always
     depends_on:
       - kafka
-      - claims-db
+      - claim-db
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      DB_URL: jdbc:postgresql://claims-db:5432/claim
+      DB_URL: jdbc:postgresql://claim-db:5432/claim
     ports:
       - "8092:8080"
 
@@ -61,7 +61,7 @@ services:
     volumes:
       - ./docker/volumes/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-  claims-db:
+  claim-db:
     image: postgres
     restart: unless-stopped
     shm_size: 128mb

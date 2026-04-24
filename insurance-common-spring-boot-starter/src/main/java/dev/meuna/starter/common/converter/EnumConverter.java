@@ -1,6 +1,6 @@
-package dev.meuna.starter.converter;
+package dev.meuna.starter.common.converter;
 
-import dev.meuna.starter.interfaces.PersistableEnum;
+import dev.meuna.starter.common.interfaces.PersistableEnum;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

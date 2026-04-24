@@ -1,4 +1,4 @@
-package dev.meuna.starter.interfaces;
+package dev.meuna.starter.common.interfaces;
 
 public interface PersistableEnum {
 	int getId();
