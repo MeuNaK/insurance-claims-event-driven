@@ -5,14 +5,16 @@ services:
       context: .
       dockerfile: ./assessment-service/Dockerfile
     container_name: assessment-service
-    restart: always
     depends_on:
-      - kafka
-      - assessment-db
+      kafka:
+        condition: service_started
+      assessment-db:
+        condition: service_healthy
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       DB_URL: jdbc:postgresql://assessment-db:5432/assessment
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9093
     ports:
       - "8091:8080"
 
@@ -21,14 +23,16 @@ services:
       context: .
       dockerfile: ./claims-service/Dockerfile
     container_name: claims-service
-    restart: always
     depends_on:
-      - kafka
-      - claim-db
+      kafka:
+        condition: service_started
+      claim-db:
+        condition: service_healthy
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       DB_URL: jdbc:postgresql://claim-db:5432/claim
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9093
     ports:
       - "8092:8080"
 
@@ -37,14 +41,16 @@ services:
       context: .
       dockerfile: ./payment-service/Dockerfile
     container_name: payment-service
-    restart: always
     depends_on:
-      - kafka
-      - payment-db
+      kafka:
+        condition: service_started
+      payment-db:
+        condition: service_healthy
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       DB_URL: jdbc:postgresql://payment-db:5432/payment
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9093
     ports:
       - "8093:8080"
 
@@ -60,6 +66,12 @@ services:
       POSTGRES_DB: assessment
     volumes:
       - ./docker/volumes/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d assessment" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
 
   claim-db:
     image: postgres
@@ -73,6 +85,12 @@ services:
       POSTGRES_DB: claim
     volumes:
       - ./docker/volumes/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d claim" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
 
   payment-db:
     image: postgres
@@ -86,6 +104,12 @@ services:
       POSTGRES_DB: payment
     volumes:
       - ./docker/volumes/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d payment" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
 
   kafka:
     image: apache/kafka
