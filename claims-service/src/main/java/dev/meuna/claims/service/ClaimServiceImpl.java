@@ -7,6 +7,8 @@ import dev.meuna.claims.exception.InvalidClaimStatusTransitionException;
 import dev.meuna.claims.repository.ClaimRepository;
 import dev.meuna.starter.common.enums.claim.ClaimStatus;
 import dev.meuna.starter.common.enums.claim.ClaimType;
+import dev.meuna.starter.common.enums.kafka.KafkaTopics;
+import dev.meuna.starter.outbox.service.OutboxService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import java.util.UUID;
 public class ClaimServiceImpl implements ClaimService {
 	
 	private ClaimRepository repository;
+	private OutboxService outboxService;
 	
 	@Override
 	public Iterable<Claim> findAll() {
@@ -34,6 +37,7 @@ public class ClaimServiceImpl implements ClaimService {
 	}
 	
 	@Override
+	@Transactional
 	public CreateClaimResponse create(CreateClaimRequest request) {
 		Claim claim = new Claim();
 		claim.setPolicyId(request.policyId());
@@ -44,6 +48,7 @@ public class ClaimServiceImpl implements ClaimService {
 		claim.setDescription(request.description());
 		
 		Claim saved = repository.save(claim);
+		outboxService.save(Claim.class.getSimpleName(), claim.getClaimNumber(), KafkaTopics.CLAIM_SUBMITTED.getTopicName(), claim);
 		
 		return new CreateClaimResponse(
 				saved.getId(),

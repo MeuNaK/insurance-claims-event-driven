@@ -11,11 +11,17 @@ spring:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
     liquibase-schema: liquibase
+    default-schema: payment
 
   jpa:
     hibernate:
       ddl-auto: validate
 
   kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9093}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
     consumer:
+      auto-offset-reset: earliest
       group-id: payment-service
