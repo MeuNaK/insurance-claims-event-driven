@@ -12,4 +12,9 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> handleBusinessLogicError(InvalidClaimStatusTransitionException ex) {
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_CONTENT).body(ex.getMessage());
 	}
+
+	@ExceptionHandler(PolicyNotFoundException.class)
+	public ResponseEntity<String> handlePolicyNotFound(PolicyNotFoundException ex) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	}
 }

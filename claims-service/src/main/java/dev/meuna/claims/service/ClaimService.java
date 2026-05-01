@@ -1,11 +1,13 @@
 package dev.meuna.claims.service;
 
+import dev.meuna.claims.dto.ClaimResponse;
 import dev.meuna.claims.dto.CreateClaimRequest;
 import dev.meuna.claims.dto.CreateClaimResponse;
 import dev.meuna.claims.entity.Claim;
 import dev.meuna.starter.common.enums.claim.ClaimStatus;
 import jakarta.transaction.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ClaimService {
@@ -18,4 +20,6 @@ public interface ClaimService {
 	
 	@Transactional
 	Optional<Claim> updateStatus(Long id, ClaimStatus status);
+	
+	List<ClaimResponse> findAllByPolicyId(Long policyId);
 }

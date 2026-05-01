@@ -1,11 +1,12 @@
 package dev.meuna.claims.entity;
 
 import dev.meuna.starter.common.enums.claim.ClaimStatus;
-import dev.meuna.starter.common.enums.claim.ClaimType;
+import dev.meuna.starter.common.enums.risk.InsuranceRiskType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Setter
@@ -24,14 +25,20 @@ public class Claim {
 	
 	@Column(name = "incident_date")
 	private Date incidentDate;
+
+	@Column(name = "claim_submitted_date")
+	private Date claimSubmittedDate;
 	
 	@Column(name = "type")
-	private ClaimType type;
+	private InsuranceRiskType type;
 	
 	@Column(name = "status")
 	private ClaimStatus status;
 	
 	@Column(name = "description")
 	private String description;
+	
+	@Column(name = "actual_expenses")
+	private BigDecimal actualExpenses;
 	
 }
