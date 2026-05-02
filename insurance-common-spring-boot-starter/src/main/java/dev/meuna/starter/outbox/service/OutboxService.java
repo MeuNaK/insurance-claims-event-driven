@@ -1,5 +1,6 @@
 package dev.meuna.starter.outbox.service;
 
+import dev.meuna.starter.common.events.KafkaEvent;
 import dev.meuna.starter.outbox.autoconfig.OutboxProperties;
 import dev.meuna.starter.outbox.exeptions.OutboxSerializationException;
 import dev.meuna.starter.outbox.model.OutboxEvent;
@@ -44,6 +45,11 @@ public class OutboxService{
 			throw new OutboxSerializationException(
 					"Failed to serialize payload for event: " + eventType, e);
 		}
+	}
+
+	@Transactional(propagation = Propagation.MANDATORY)
+	public OutboxEvent save(String aggregateId, KafkaEvent event) {
+		return save(event.aggregateType(), aggregateId, event.topicName(), event);
 	}
 	
 	@Transactional(propagation = Propagation.MANDATORY)

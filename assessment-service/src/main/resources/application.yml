@@ -26,3 +26,12 @@ spring:
     consumer:
       auto-offset-reset: earliest
       group-id: assessment-service
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: MANUAL_IMMEDIATE
+
+outbox:
+  scheduling:
+    enabled: true
