@@ -88,17 +88,50 @@ flowchart LR
 
 ### Business Flow
 
-_This flow is currently in development and may change._
+```mermaid
+sequenceDiagram
+    actor User
+    participant Claims as claims-service
+    participant OutboxClaims as outbox (claims)
+    participant Kafka
+    participant Assessment as assessment-service
+    participant OutboxAssess as outbox (assess)
+    participant Payment as payment-service
+    participant OutboxPayment as outbox (payment)
 
-`SUBMITTED -> UNDER_ASSESSMENT -> ASSESSED -> PAYMENT_PENDING -> PAID`
+    User->>Claims: Create claim
+    Note over Claims: save status = SUBMITTED
+    Claims->>OutboxClaims: store ClaimSubmitted
+    OutboxClaims->>Kafka: publish ClaimSubmitted
 
-Possible alternative branches:
-- claim is rejected (`REJECTED`);
-- payment has an error (`PAYMENT_FAILED`) with a compensation flow.
+    Kafka->>Assessment: ClaimSubmitted [group: assess-group]
+    Note over Assessment: save decision
+    Assessment->>OutboxAssess: store ClaimAssessed / ClaimRejected
+    OutboxAssess->>Kafka: publish ClaimAssessed / ClaimRejected
+
+    alt approved
+        Note over Kafka: same event, two consumer groups
+        Kafka->>Claims: ClaimAssessed [group: claims-group]
+        Note over Claims: status = PAYMENT_PENDING
+        Kafka->>Payment: ClaimAssessed [group: payment-group]
+        Note over Payment: save payment record
+        Payment->>OutboxPayment: store PaymentCompleted / PaymentFailed
+        OutboxPayment->>Kafka: publish  
+
+        Kafka->>Claims: PaymentCompleted
+        Note over Claims: status = PAID
+
+        Kafka-->>Claims: PaymentFailed (compensating)
+        Note over Claims: status = PAYMENT_FAILED
+    else rejected
+        Kafka->>Claims: ClaimRejected [group: claims-group]
+        Note over Claims: status = REJECTED
+    end
+```
 
 ## Planned Development Stages
 
-- [ ] Architecture concept and project scope are defined
+- [x] Architecture concept and project scope are defined
 - [ ] Stage 1: `claims-service` (API + storage + outbox)
 - [ ] Stage 2: `assessment-service` (review and underwriter decision)
 - [ ] Stage 3: `payment-service` (payment + duplicate protection)
